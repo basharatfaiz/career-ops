@@ -8,6 +8,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { fixReportLinks } from '../fix-report-links.mjs';
 
 const CODE_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const HEADER = [
@@ -107,6 +108,23 @@ test('a link to a directory is treated as broken', withRoot((root) => {
   assert.equal(r.status, 0, r.out);
   assert.match(tracker(root), /\| — \|/);
   assert.doesNotMatch(tracker(root), /\.\.\/reports\//);
+}));
+
+test('an uninspectable report target is preserved and reported separately', withRoot((root) => {
+  const lines = [...HEADER, row(1, 'Acme Widgets', DEAD)];
+  const result = fixReportLinks(lines, join(root, 'data'), root, {
+    stat(path) {
+      const error = new Error(`permission denied: ${path}`);
+      error.code = 'EACCES';
+      throw error;
+    },
+  });
+  assert.deepEqual(result.lines, lines, 'an inconclusive inspection cannot erase the link');
+  assert.equal(result.changed.length, 0);
+  assert.equal(result.inspectionErrors.length, 1);
+  assert.equal(result.inspectionErrors[0].link, '../reports/001-acme-widgets-2026-07-15.md');
+  assert.equal(result.inspectionErrors[0].errors.length, 2);
+  assert.ok(result.inspectionErrors[0].errors.every(({ error }) => error.code === 'EACCES'));
 }));
 
 test('legacy root-relative link resolves from the data root', withRoot((root) => {

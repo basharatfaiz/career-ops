@@ -40,20 +40,33 @@ const SINGLE_LINK_RE = /^\[[^\]]*\]\([^)]+\)$/;
  * @param {string[]} lines - Tracker content split on '\n' (a CR stays on its line).
  * @param {string} trackerDir - Directory containing the tracker file.
  * @param {string} dataRoot - Data root.
- * @returns {{lines: string[], changed: object[], skipped: object[], hasReportColumn: boolean}}
+ * @param {{stat?: Function}} [options] - Test seam for filesystem inspection.
+ * @returns {{lines: string[], changed: object[], skipped: object[], inspectionErrors: object[], hasReportColumn: boolean}}
  */
-export function fixReportLinks(lines, trackerDir, dataRoot) {
+export function fixReportLinks(lines, trackerDir, dataRoot, options = {}) {
   const COLS = resolveColumns(lines);
-  if (COLS.report == null) return { lines, changed: [], skipped: [], hasReportColumn: false };
+  if (COLS.report == null) return { lines, changed: [], skipped: [], inspectionErrors: [], hasReportColumn: false };
 
   const out = lines.slice();
   const changed = [];
   const skipped = [];
+  const inspectionErrors = [];
   for (let i = 0; i < lines.length; i++) {
     const row = parseTrackerRow(lines[i], COLS);
     if (!row) continue; // header, separator, non-row, or a row missing cells
 
-    const link = findDeadReportLink(row.report, trackerDir, dataRoot);
+    let inspectionFailure = null;
+    const link = findDeadReportLink(row.report, trackerDir, dataRoot, {
+      stat: options.stat,
+      onInspectionError: (failure) => { inspectionFailure = failure; },
+    });
+    if (inspectionFailure) {
+      inspectionErrors.push({
+        num: row.num, company: row.company, role: row.role, cell: row.report,
+        line: i + 1, ...inspectionFailure,
+      });
+      continue;
+    }
     if (link === null) continue; // no link (—, N/A, empty) or it resolves
 
     const info = { num: row.num, company: row.company, role: row.role, link, cell: row.report, line: i + 1 };
@@ -72,7 +85,7 @@ export function fixReportLinks(lines, trackerDir, dataRoot) {
     out[i] = parts.join('|');
     changed.push(info);
   }
-  return { lines: out, changed, skipped, hasReportColumn: true };
+  return { lines: out, changed, skipped, inspectionErrors, hasReportColumn: true };
 }
 
 const KNOWN_FLAGS = ['--help', '-h', '--dry-run'];
@@ -136,6 +149,14 @@ if (result.skipped.length > 0) {
   console.log(`\n⚠️  ${result.skipped.length} row(s) skipped, please check by hand (Report cell is not a single link):`);
   for (const s of result.skipped) {
     console.log(`  #${s.num} (line ${s.line}) ${s.company} — ${s.role}: "${s.cell}"`);
+  }
+}
+
+if (result.inspectionErrors.length > 0) {
+  console.log(`\n⚠️  ${result.inspectionErrors.length} row(s) preserved because the report target could not be inspected:`);
+  for (const item of result.inspectionErrors) {
+    const details = item.errors.map(({ path, error }) => `${path} (${error.code ?? error.message})`).join('; ');
+    console.log(`  #${item.num} (line ${item.line}) ${item.company} — ${item.role}: ${details}`);
   }
 }
 

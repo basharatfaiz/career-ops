@@ -71,14 +71,31 @@ export function rebuildRow(parts) {
  * @param {string} reportCell - Raw Report cell value.
  * @param {string} trackerDir - Directory containing the tracker file.
  * @param {string} dataRoot - Data root (getCareerOpsRoot()).
- * @returns {string|null} The unresolved link target, or null when there is no link or it resolves.
+ * @param {{onInspectionError?: Function, stat?: Function}} [options]
+ * @returns {string|null} The unresolved link target, or null when there is no link,
+ *   it resolves, or its targets could not be inspected conclusively.
  */
-export function findDeadReportLink(reportCell, trackerDir, dataRoot) {
+export function findDeadReportLink(reportCell, trackerDir, dataRoot, options = {}) {
   const match = String(reportCell ?? '').match(/\]\(([^)]+)\)/);
   if (!match) return null;
   const link = match[1];
-  const isReportFile = (p) => { try { return statSync(p).isFile(); } catch { return false; } };
-  if (isReportFile(join(trackerDir, link)) || isReportFile(join(dataRoot, link))) return null;
+  const inspect = options.stat ?? statSync;
+  const errors = [];
+  const candidates = [...new Set([join(trackerDir, link), join(dataRoot, link)])];
+  for (const path of candidates) {
+    try {
+      if (inspect(path).isFile()) return null;
+    } catch (err) {
+      // ENOENT/ENOTDIR prove that this candidate is absent. Permission errors,
+      // transient I/O failures and every other error do not prove that, so an
+      // explicit repair must preserve the tracker cell instead of deleting it.
+      if (err?.code !== 'ENOENT' && err?.code !== 'ENOTDIR') errors.push({ path, error: err });
+    }
+  }
+  if (errors.length > 0) {
+    options.onInspectionError?.({ link, errors });
+    return null;
+  }
   return link;
 }
 
