@@ -20,7 +20,7 @@
  * Run: node fix-report-links.mjs [--dry-run]
  */
 
-import { readFileSync, copyFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { dirname } from 'path';
 import { getCareerOpsRoot, resolveTrackerPath } from './path-resolver.mjs';
 import { openTrackerTransaction, findDeadReportLink } from './tracker-utils.mjs';
@@ -144,11 +144,14 @@ console.log(`\n📊 ${result.changed.length} dead report link(s) ${DRY_RUN ? 'fo
 if (DRY_RUN) {
   console.log('(dry-run — no changes written)');
 } else if (result.changed.length > 0) {
-  // Backup first, exactly as normalize-statuses.mjs does.
-  const backupPath = `${APPS_FILE}.bak`;
-  copyFileSync(APPS_FILE, backupPath);
+  // Backup first. Written from the bytes this run parsed (read inside the
+  // lock), next to the transaction's canonical path: copying APPS_FILE again
+  // would follow a CAREER_OPS_TRACKER symlink and put the .bak beside the
+  // link, or capture an edit made by a writer that bypasses the lock.
+  const backupPath = `${trackerTransaction.path}.bak`;
+  writeFileSync(backupPath, content);
   trackerTransaction.replace(result.lines.join('\n'));
-  console.log(`✅ Written to ${APPS_FILE} (backup: ${backupPath})`);
+  console.log(`✅ Written to ${trackerTransaction.path} (backup: ${backupPath})`);
 } else {
   console.log('✅ No changes needed');
 }

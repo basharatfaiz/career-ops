@@ -4,7 +4,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync, symlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -222,4 +222,26 @@ test('CAREER_OPS_TRACKER override is honored', withRoot((root) => {
   const r = run(root, [], { CAREER_OPS_ROOT: root, CAREER_OPS_TRACKER: custom });
   assert.equal(r.status, 0, r.out);
   assert.match(readFileSync(custom, 'utf-8'), /\| — \|/);
+}));
+
+test('a symlinked CAREER_OPS_TRACKER: the backup sits beside the real file and holds its original bytes', withRoot((root) => {
+  // CodeRabbit (PR #4751): copying the link path would put the .bak beside the
+  // link; the backup must follow the transaction's canonical path instead.
+  const realDir = join(root, 'real');
+  mkdirSync(realDir);
+  const real = join(realDir, 'applications.md');
+  const original = [...HEADER, row(1, 'Acme Widgets', '[1](../reports/gone.md)'), ''].join('\n');
+  writeFileSync(real, original);
+  const linkDir = join(root, 'linked');
+  mkdirSync(linkDir);
+  const link = join(linkDir, 'applications.md');
+  try { symlinkSync(real, link); } catch (e) {
+    if (e.code === 'EPERM' || e.code === 'EACCES') return; // symlinks need privileges on some Windows setups
+    throw e;
+  }
+  const r = run(root, [], { CAREER_OPS_ROOT: root, CAREER_OPS_TRACKER: link });
+  assert.equal(r.status, 0, r.out);
+  assert.match(readFileSync(real, 'utf-8'), /\| — \|/, 'the real file was rewritten');
+  assert.equal(readFileSync(`${real}.bak`, 'utf-8'), original, 'backup beside the real file, original bytes');
+  assert.equal(existsSync(`${link}.bak`), false, 'no backup beside the link');
 }));
