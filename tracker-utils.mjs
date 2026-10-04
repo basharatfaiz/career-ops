@@ -56,6 +56,33 @@ export function rebuildRow(parts) {
 }
 
 /**
+ * The ONE rule for "this Report cell links to a report that is not on disk",
+ * shared by verify-pipeline.mjs (Check 3), merge-tracker.mjs (merge-time
+ * warning, #4748) and fix-report-links.mjs (#4750) so the three can never
+ * disagree about which rows are broken.
+ *
+ * The link is the first markdown `](target)` in the cell. It resolves when it
+ * names a REGULAR FILE from the tracker's own directory (markdown links are
+ * relative to the file holding them, see #760) or, for legacy root-relative
+ * links, from the data root. A directory is not a report. A cell with no link
+ * (`—`, `N/A`, empty) is the documented "no report" convention and is never
+ * broken.
+ *
+ * @param {string} reportCell - Raw Report cell value.
+ * @param {string} trackerDir - Directory containing the tracker file.
+ * @param {string} dataRoot - Data root (getCareerOpsRoot()).
+ * @returns {string|null} The unresolved link target, or null when there is no link or it resolves.
+ */
+export function findDeadReportLink(reportCell, trackerDir, dataRoot) {
+  const match = String(reportCell ?? '').match(/\]\(([^)]+)\)/);
+  if (!match) return null;
+  const link = match[1];
+  const isReportFile = (p) => { try { return statSync(p).isFile(); } catch { return false; } };
+  if (isReportFile(join(trackerDir, link)) || isReportFile(join(dataRoot, link))) return null;
+  return link;
+}
+
+/**
  * Normalize company names for same-company lookups across tracker scripts.
  *
  * Company names can contain spaces, punctuation, or branding variants in the

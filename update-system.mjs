@@ -303,6 +303,7 @@ const SYSTEM_PATHS = [
   'set-status-tests.mjs',
   'mark-pdf-ready.mjs',
   'normalize-statuses.mjs',
+  'fix-report-links.mjs',
   'cv-sync-check.mjs',
   'i18n-drift.mjs',
   'verify-cv-facts.mjs',
