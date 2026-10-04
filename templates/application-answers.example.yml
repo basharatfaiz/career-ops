@@ -1,0 +1,381 @@
+# application-answers.example.yml — the answer bank the apply tools read.
+#
+# Copy to data/application-answers.yml (user layer: gitignored, never committed)
+# and fill it in from YOUR cv.md and your own decisions. Every value here is a
+# statement you are making to an employer, so:
+#   - leave a field blank rather than guess; a blank makes the runner ASK you
+#   - sensitive categories (demographics) are answered ONLY if you fill them in;
+#     list anything you never want answered under demographics.never_answer
+#   - free_text.stories are your own first-person answers, in your own words.
+#     Placeholders {termA} {termB} {company} {role} are filled from the posting.
+#   - match_question lists are generic question patterns; keep or extend them.
+#   - cv.final_path / cv.final_sha256: the one PDF you upload everywhere.
+#     Get the hash with:  shasum -a 256 "path/to/your CV.pdf"
+#
+version: 0
+confirmed_by: ''
+confirmed_on: ''
+identity:
+  full_name: ''
+  phone: ''
+  phone_international: ''
+  email: ''
+  linkedin: ''
+  portfolio: ''
+compensation:
+  current_ctc:
+    value: 0
+    currency: ''
+    unit: ''
+    display: ''
+  expected_ctc:
+    value: 0
+    currency: ''
+    unit: ''
+    display: ''
+  bare_number: false
+  breakup:
+    match_question:
+      - cash compensation breakup
+      - compensation breakup
+      - fixed.*variable
+      - ctc breakup
+    answer: ''
+    display: ''
+    wants_fixed_variable_split: false
+    policy: ''
+  equity:
+    match_question:
+      - hold any equity
+      - equity in the current company
+      - do you hold.*(esop|rsu|option|stock)
+      - stock options
+    answer: ''
+    display: ''
+    unit_as_stated: ''
+    wants_inr_or_usd: false
+    policy: ''
+availability:
+  notice_period:
+    display: ''
+    answer: ''
+    days: 0
+    confirmed_by_user: ''
+    prefer: []
+    never: []
+  superseded_below: []
+  joining_date:
+    policy: ''
+referral:
+  match_question:
+    - how did you hear
+    - where did you find
+    - how did you find
+    - how did you discover
+    - source of
+    - how did you come across
+    - what brought you
+  preference_order: []
+  never: []
+employment_history:
+  source: ''
+  source_section: ''
+  order: ''
+  match_question:
+    - company name
+    - employer
+    - current employer
+    - most recent employer
+    - where do you work
+    - present employer
+  entries: []
+  current_role_policy: ''
+ai_tooling_fluency:
+  match_question:
+    - how fluent are you with (cursor|claude|ai|copilot)
+    - fluency.*(cursor|claude code|ai coding|ai tools)
+    - proficiency.*(ai|coding).*tools
+  answer: ''
+  scale:
+    '1': I have never tried it
+    '2': Use it regularly for small tasks
+    '3': Shipped real work through these tools
+    '4': Built non-trivial things end to end. Understand MCP, skills, and component organization.
+    '5': All of the above, plus fluent in React, hooks, and state management
+  prefer: []
+  confirmed_by_user: ''
+  confirmed_on: ''
+  policy: ''
+relationships:
+  related_to_employees:
+    answer: ''
+    policy: ''
+  previous_employee:
+    answer: ''
+ai_prototyping_tools:
+  answer: []
+  display: ''
+  context: ''
+  stated_by_user: ''
+  provenance: ''
+  match_question:
+    - which of the following ai[- ]powered prototyping tools
+    - ai[- ]powered prototyping tools
+    - ai (design|prototyping|coding) tools.{0,40}(you|used|use)
+    - which ai tools
+    - prototyping tools.{0,30}(used|use)
+  never: []
+  policy: ''
+  free_text_answer: ''
+work_authorization:
+  authorized_answer: ''
+  sponsorship_required_answer: ''
+  country: ''
+  basis: ''
+  never: []
+  match_authorized:
+    - legally authori[sz]ed to work
+    - authorized to work in
+    - able to work (legally )?(in|within)
+    - right to work
+    - eligible to work
+    - work authori[sz]ation
+  match_sponsorship:
+    - require (visa )?sponsorship
+    - will you (now|in the future) require
+    - need (a )?(work )?visa
+    - employment visa
+    - work permit
+demographics:
+  disability:
+    answer: ''
+    match_question:
+      - disabilit
+      - impairment
+      - condition limiting
+      - health limit
+    prefer: []
+  lgbt:
+    answer: ''
+    self_description: ''
+    match_question:
+      - \blgb\b
+      - \blgbtq?\b
+      - lesbian
+      - gay
+      - bisexual
+      - queer community
+      - queer community
+    prefer: []
+  gender_identity:
+    answer: ''
+    description_answer: ''
+    match_question:
+      - gender identity
+      - how do you (currently )?describe your gender
+      - gender
+    prefer: []
+  veteran_status:
+    answer: ''
+    match_question:
+      - veteran
+      - military service
+      - armed forces
+      - protected veteran
+    prefer: []
+  race_ethnicity:
+    self_description: ''
+    prefer: []
+    ethnicity_prefer: []
+    forbid: []
+    fallback: ''
+  never_answer: []
+location_preference:
+  match_question:
+    - preferred job location
+    - desired job location
+    - ideal job location
+    - location for this application
+    - office preference
+    - location preference
+    - preferred location
+    - desired location
+    - which location
+    - work location
+    - based in
+    - relocation
+  current_residence:
+    match_question:
+      - current location
+      - current address
+      - where do you (currently )?(live|reside|are based)
+      - present address
+      - home location
+      - ^country\s*\*?$
+      - country of (residence|citizenship|nationality)
+      - location \(?\s*city
+      - where are you located
+      - what is your current location
+    policy: ''
+    answer:
+      country: ''
+      city: ''
+    country_answer: ''
+    city: ''
+    city_policy: ''
+    city_confirmed_by_user: ''
+    city_note: ''
+    city_variants: []
+  by_company: {}
+  onsite_comfort:
+    answer: ''
+    detail: ''
+geography:
+  home_country: ''
+  authorized_in: []
+  work_authorization:
+    in_home_country:
+      answer: ''
+      detail: ''
+      sponsorship_needed: false
+    outside_home_country:
+      sponsorship_needed: false
+      policy: ''
+      assume_available: false
+      on_explicitly_offered: ''
+      on_explicitly_unavailable: ''
+      on_unclear: ''
+      answer_templates:
+        offered: ''
+        unclear: ''
+  rules: []
+  do_not_exclude_merely_because: []
+  hard_exclusions:
+    seniority: []
+    closed: []
+commitments: []
+verified_experience:
+  source_of_truth: ''
+  employers: []
+  capabilities: []
+  metrics: []
+  education:
+    degree: ''
+    school: ''
+    period: ''
+  languages: []
+  tools: []
+free_text:
+  generate_for:
+    - why do you want to work here / at this company
+    - why are you interested in this role / at <company>
+    - why are you a good fit
+    - tell us about yourself
+    - what excites you about this opportunity
+    - why are you looking for a new role / why are you leaving
+    - what makes you a strong candidate
+    - what product have you worked on that is relevant
+    - tell us about a relevant project / describe your most proud design project
+    - describe a difficult design problem
+    - describe your experience with AI
+    - describe your experience with integrations
+    - what interests you about our product
+    - what would you bring to this team
+    - cover letter
+  word_budgets:
+    why_company:
+      - 60
+      - 120
+    why_role:
+      - 60
+      - 120
+    why_fit:
+      - 80
+      - 150
+    about_yourself:
+      - 80
+      - 150
+    short_textbox:
+      - 40
+      - 80
+    long_essay:
+      - 200
+      - 400
+    proud_project:
+      - 90
+      - 170
+    relevant_product:
+      - 80
+      - 160
+    difficult_problem:
+      - 90
+      - 170
+    ai_experience:
+      - 80
+      - 160
+    integrations_experience:
+      - 70
+      - 150
+    research_experience:
+      - 70
+      - 150
+    design_system_experience:
+      - 70
+      - 150
+    metrics_outcome:
+      - 70
+      - 150
+    why_leaving:
+      - 60
+      - 120
+    what_bring:
+      - 80
+      - 150
+    cover_letter:
+      - 120
+      - 220
+  obey_stated_limits: true
+  never_generate:
+    - anything requiring a personal judgement not in this bank
+    - sensitive information the user has not explicitly answered
+    - legal declarations or attestations
+    - salary/compensation not already established
+    - a factual claim that cannot be traced to the JD, the posting, or cv.md
+  title: ''
+  years_experience: ''
+  home_city: ''
+  highlights:
+    primary: ''
+    secondary: ''
+    metrics: ''
+  angles:
+    ai: ''
+    integrations: ''
+    designSystem: ''
+    research: ''
+    workflow: ''
+  stories:
+    relevant_product: ''
+    proud_project: ''
+    difficult_problem: ''
+    ai_experience: ''
+    integrations_experience: ''
+    research_experience: ''
+    design_system_experience: ''
+    metrics_outcome: ''
+    why_leaving: ''
+    what_bring: ''
+cv:
+  final_path: ''
+  final_sha256: ''
+  final_source: ''
+  professional_filename: ''
+  unique_filename_pattern: ''
+  accept: ''
+product_experience: []
+address:
+  line1: ''
+  city: ''
+  zip: ''
+  state: ''
+  country: ''

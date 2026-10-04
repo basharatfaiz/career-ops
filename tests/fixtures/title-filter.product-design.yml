@@ -1,0 +1,119 @@
+# Product-design title filter, used by tests/title-normalizer-coverage.test.mjs.
+# Also a ready starting point: copy the title_filter block into your portals.yml
+# if you are searching for individual-contributor product design roles.
+title_filter:
+  positive:
+    - Product Designer
+    - Senior Product Designer
+    - Sr. Product Designer
+    - AI/UX Product Designer
+    - AI Product Designer
+    - Product Designer, AI
+    - Product Designer II
+    - Product Designer III
+    - Product Designer IV
+    - Senior UX/Product Designer
+    - UX/Product Designer
+    - AI/UX Designer
+    - UX/AI Designer
+    - UI/UX Designer
+    - UI/UX Product Designer
+  negative:
+    - Staff Product Designer
+    - Senior Staff Product Designer
+    - Sr. Staff Product Designer
+    - Principal Product Designer
+    - Distinguished Product Designer
+    - Lead Product Designer
+    - Product Design Lead
+    - Product Design Manager
+    - Design Systems Lead
+    - Design Systems Manager
+    - Design Manager
+    - Head of Design
+    - Head of Product Design
+    - Director of Design
+    - Director of Product Design
+    - VP Design
+    - Staff-level
+    - Principal-level
+    - Junior
+    - Junior
+    - Associate
+    - Entry Level
+    - Entry-Level
+    - Graduate
+    - word:Intern
+    - word:Interns
+    - Internship
+    - word:Apprentice
+    - Apprenticeship
+    - Brand Designer
+    - Graphic Designer
+    - Visual Designer
+    - Art Director
+    - Motion Designer
+    - Video Editor
+    - Illustrator
+    - Packaging Designer
+    - Fashion Designer
+    - Interior Designer
+    - Textile
+    - word:Staff
+    - word:Principal
+    - word:Lead
+    - word:Director
+    - word:Manager
+    - word:Head
+    - word:VP
+    - word:Illustration
+    - word:Animation
+    - word:Packaging
+    - word:Fashion
+    - word:Apparel
+    - word:Jewellery
+    - UI/UX Visual
+    - Marketing Designer
+    - Growth Designer
+    - Marketing Design
+    - Web Designer
+    - WordPress
+    - B2C
+    - Consumer
+    - Design System Engineer
+    - Engineer, Design System
+    - Engineer - Design System
+    - Frontend Platform Engineer
+    - Frontend Engineer
+    - Game Designer
+    - Game UX
+    - Level Designer
+    - Casino
+    - iOS App Designer
+    - Android App Designer
+    - Mobile App Designer
+    - Kids
+    - Gaming
+    - Manager, Design Operations
+    - Design Operations Manager
+    - Head of Design
+    - VP Design
+    - Director of Design
+    - Salesforce Admin
+    - 'SAP '
+    - Oracle EBS
+    - .NET
+    - Embedded
+    - Firmware
+    - Mainframe
+    - COBOL
+    - Master Thesis
+    - Bachelor Thesis
+    - Internship Programme
+  seniority_boost:
+    - Senior
+    - Staff
+    - Principal
+    - Lead
+    - Head
+    - Director

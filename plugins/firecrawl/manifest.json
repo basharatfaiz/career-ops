@@ -1,0 +1,13 @@
+{
+  "id": "firecrawl",
+  "name": "Firecrawl",
+  "version": "0.1.0",
+  "apiVersion": 1,
+  "description": "Keyed job source: scrape or search public career pages and ATS boards into the scanner, for pages the lightweight resolver cannot read.",
+  "hooks": ["provider"],
+  "requiredEnv": ["FIRECRAWL_API_KEY"],
+  "allowedHosts": ["api.firecrawl.dev"],
+  "skill": "skill.md",
+  "humanInTheLoop": true,
+  "homepage": "https://firecrawl.dev"
+}
