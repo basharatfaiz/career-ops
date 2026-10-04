@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>career-ops Setup Guide</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 20mm 17mm; }
+  :root {
+    --ink: #17202e; --muted: #5a6475; --line: #dfe3ea; --accent: #2b4fd8;
+    --accent-soft: #eaeefc; --warn: #8a5a00; --warn-soft: #fdf3dc;
+    --good: #1d6e47; --good-soft: #e3f3ea; --code-bg: #f4f6f9;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); font: 10.4pt/1.55 -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  h1, h2, h3 { line-height: 1.2; margin: 0; }
+  h2 { font-size: 17pt; margin: 0 0 4pt; letter-spacing: -0.01em; }
+  h3 { font-size: 11.5pt; margin: 14pt 0 4pt; }
+  p { margin: 0 0 7pt; }
+  ul, ol { margin: 0 0 8pt; padding-left: 16pt; }
+  li { margin: 0 0 3pt; }
+  a { color: var(--accent); text-decoration: none; }
+  code { font: 9pt/1.4 "SF Mono", Menlo, Consolas, monospace; background: var(--code-bg); padding: 1pt 3.5pt; border-radius: 3pt; }
+  pre { font: 8.8pt/1.5 "SF Mono", Menlo, Consolas, monospace; background: var(--code-bg); border: 1px solid var(--line);
+        border-radius: 5pt; padding: 7pt 9pt; margin: 4pt 0 9pt; white-space: pre-wrap; word-break: break-word; break-inside: avoid; }
+  pre code { background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 10pt; font-size: 9.6pt; break-inside: avoid; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 7pt; border-bottom: 1px solid var(--line); }
+  th { font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+  .section { break-before: page; }
+  .kicker { font-size: 8.6pt; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 4pt; }
+  .lede { color: var(--muted); font-size: 10.8pt; margin-bottom: 12pt; }
+  .note, .warn, .good { border-radius: 5pt; padding: 7pt 10pt; margin: 6pt 0 10pt; break-inside: avoid; font-size: 9.8pt; }
+  .note { background: var(--accent-soft); }
+  .warn { background: var(--warn-soft); color: #4a3300; }
+  .good { background: var(--good-soft); color: #123d28; }
+  .note b, .warn b, .good b { display: block; margin-bottom: 2pt; }
+  .step { display: grid; grid-template-columns: 22pt 1fr; gap: 8pt; margin: 10pt 0 4pt; break-inside: avoid-page; }
+  .num { width: 22pt; height: 22pt; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 10pt;
+         display: flex; align-items: center; justify-content: center; margin-top: 1pt; }
+  .step h3 { margin: 2pt 0 4pt; }
+  .say { border-left: 3px solid var(--accent); padding: 3pt 0 3pt 9pt; margin: 4pt 0 9pt; font-style: italic; color: #26314a; break-inside: avoid; }
+
+  /* cover */
+  .cover { height: 255mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .top { padding-top: 30mm; }
+  .cover h1 { font-size: 34pt; letter-spacing: -0.025em; margin: 6pt 0 10pt; }
+  .cover .sub { font-size: 13pt; color: var(--muted); max-width: 135mm; }
+  .cover .chips { display: flex; flex-wrap: wrap; gap: 6pt; margin-top: 18pt; }
+  .chip { border: 1px solid var(--line); border-radius: 20pt; padding: 3pt 10pt; font-size: 9.2pt; color: #2f3a50; }
+  .cover .foot { font-size: 9.2pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 9pt; }
+  .toc { columns: 2; column-gap: 18pt; font-size: 10.2pt; padding-left: 16pt; }
+  .toc li { break-inside: avoid; margin-bottom: 4pt; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10pt; }
+  .card { border: 1px solid var(--line); border-radius: 6pt; padding: 8pt 10pt; break-inside: avoid; }
+  .card h4 { margin: 0 0 3pt; font-size: 10.4pt; }
+  .card p { font-size: 9.6pt; color: #39445a; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="top">
+    <div class="kicker">Setup guide</div>
+    <h1>Your AI job-search assistant</h1>
+    <p class="sub">How to set up career-ops with daily job discovery, a dashboard of everything you've applied to, Gmail status sync, and assisted application filling, step by step from a fresh Mac.</p>
+    <div class="chips">
+      <span class="chip">Twice-daily job scan</span><span class="chip">Fit-ranked digest</span>
+      <span class="chip">One-click "Mark Applied"</span><span class="chip">Gmail rejection &amp; interview sync</span>
+      <span class="chip">Form filling that never submits</span>
+    </div>
+    <h3 style="margin-top:26pt">Contents</h3>
+    <ol class="toc">
+      <li>What you're setting up</li>
+      <li>Install the basics</li>
+      <li>Download the project</li>
+      <li>First run: let Claude onboard you</li>
+      <li>Tell it what you're looking for</li>
+      <li>Your answer bank</li>
+      <li>Your final CV</li>
+      <li>Optional extra job sources</li>
+      <li>Schedule the daily scan</li>
+      <li>The dashboard</li>
+      <li>Gmail sync</li>
+      <li>Applying to a job</li>
+      <li>Your house rules</li>
+      <li>A normal day</li>
+      <li>Staying up to date</li>
+      <li>Privacy</li>
+      <li>Troubleshooting</li>
+    </ol>
+  </div>
+  <div class="foot">
+    Project: <b>github.com/basharatfaiz/career-ops</b>, built on the open-source
+    <b>career-ops</b> project (github.com/career-ops-hq/career-ops). Technical reference
+    inside the project: <code>docs/EXTRAS.md</code>.
+  </div>
+</section>
+
+<!-- 1 -->
+<section class="section">
+  <div class="kicker">Step 1</div>
+  <h2>What you're setting up</h2>
+  <p class="lede">career-ops is a folder on your Mac that an AI assistant (Claude Code) works inside. You talk to it in plain English, and it runs small scripts that find jobs, score them against your CV, and keep a tracker. Nothing lives on anyone else's server.</p>
+
+  <div class="two">
+    <div class="card"><h4>Daily discovery</h4><p>Twice a day it scans company career pages, job boards and (optionally) LinkedIn, filters out roles that don't fit, and sends you a Mac notification.</p></div>
+    <div class="card"><h4>Digest &amp; dashboard</h4><p>A page in your browser listing new roles ranked by fit, everything you've applied to, and full history, with Mark Applied and Archive buttons.</p></div>
+    <div class="card"><h4>Gmail sync</h4><p>Reads your job-email labels and proposes tracker updates (rejected, interview, offer). You approve each one.</p></div>
+    <div class="card"><h4>Assisted applying</h4><p>Opens an application in a visible browser and fills it from your own saved answers and your one final CV, then stops so you can review and submit yourself.</p></div>
+  </div>
+
+  <div class="good"><b>It never applies on your behalf.</b>Every tool stops before the Submit button, and nothing is marked "Applied" unless you say so. Answers it can't back up from your own files are handed back to you as questions, never guessed.</div>
+
+  <h3>Time needed</h3>
+  <ul>
+    <li><b>About 45 minutes</b> for the first setup (steps 2–9).</li>
+    <li><b>15 more minutes</b> for Gmail sync (step 11), if you want it.</li>
+    <li>After that, about 10 minutes a day.</li>
+  </ul>
+
+  <h3>What you need</h3>
+  <ul>
+    <li>A Mac. The daily scan and notifications use macOS. Linux works with small changes; see Troubleshooting.</li>
+    <li>A Claude plan that includes <b>Claude Code</b> (the Claude desktop app's Code tab, or the <code>claude</code> terminal app).</li>
+    <li>Your CV as a PDF, plus its text (you'll paste it in once).</li>
+    <li>Optional: a free GitHub account, only if you later want to share your own improvements.</li>
+  </ul>
+</section>
+
+<!-- 2 -->
+<section class="section">
+  <div class="kicker">Step 2</div>
+  <h2>Install the basics</h2>
+  <p class="lede">Three free tools: Homebrew (installs the others), Node.js (runs the scripts) and Git (downloads the project). Open the <b>Terminal</b> app (press ⌘ Space, type "Terminal") and paste each command, pressing Return after each.</p>
+
+  <div class="step"><div class="num">a</div><div>
+    <h3>Install Homebrew</h3>
+    <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+    <p>It asks for your Mac password (typing shows nothing; that's normal). When it finishes, it prints two "Next steps" commands. Run those too, so <code>brew</code> works.</p>
+  </div></div>
+
+  <div class="step"><div class="num">b</div><div>
+    <h3>Install Node.js and Git</h3>
+    <pre><code>brew install node git</code></pre>
+    <p>Check they work. Both should print a version number (Node must be 18.17 or newer):</p>
+    <pre><code>node -v
+git --version</code></pre>
+  </div></div>
+
+  <div class="step"><div class="num">c</div><div>
+    <h3>Get Claude Code</h3>
+    <p>Easiest: install the <b>Claude desktop app</b> and use its <b>Code</b> tab, which lets you open a folder and chat with Claude about it. Alternatively, install the terminal version:</p>
+    <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+    <p>Sign in with your Claude account the first time you open it.</p>
+  </div></div>
+
+  <div class="note"><b>Prefer not to touch the Terminal?</b>Once Claude Code is installed (step c), you can open it on any folder and ask: <i>"Install Homebrew, Node and Git for me."</i> It will run the commands and ask your permission for each one.</div>
+</section>
+
+<!-- 3 -->
+<section class="section">
+  <div class="kicker">Step 3</div>
+  <h2>Download the project</h2>
+  <p class="lede">This copies the project into a folder called <code>career-ops</code> in your home folder and installs what it needs.</p>
+  <pre><code>cd ~
+git clone https://github.com/basharatfaiz/career-ops.git
+cd career-ops
+npm install
+npx playwright install chromium
+cp docs/local-paths.fork.txt config/local-paths.txt</code></pre>
+  <p>The <code>playwright</code> command downloads a private copy of the Chromium browser that the tools use to read job pages and fill forms. It's separate from your normal Chrome, so your own browsing, logins and passwords are never touched.</p>
+  <p>The last line tells the project's built-in updater that the extra files in this version belong to you, so a future update never overwrites them.</p>
+  <div class="note"><b>Where is it?</b>In Finder: your home folder (Go → Home) → <code>career-ops</code>. You'll open this folder in Claude Code next.</div>
+</section>
+
+<!-- 4 -->
+<section class="section">
+  <div class="kicker">Step 4</div>
+  <h2>First run: let Claude onboard you</h2>
+  <p class="lede">Open the <code>career-ops</code> folder in Claude Code (desktop app: Code tab → choose folder; terminal: <code>cd ~/career-ops</code> then <code>claude</code>). Then just say:</p>
+  <div class="say">"Hi, set me up."</div>
+  <p>It checks what's missing and walks you through it, one question at a time:</p>
+  <table>
+    <tr><th style="width:28%">It asks for</th><th>What to give it</th><th style="width:30%">Saved to</th></tr>
+    <tr><td>Your CV</td><td>Paste the text of your CV. It turns it into clean markdown.</td><td><code>cv.md</code></td></tr>
+    <tr><td>Profile</td><td>Name, email, location, timezone, target roles, salary range, and a cost tier (pick <b>standard</b> if unsure).</td><td><code>config/profile.yml</code></td></tr>
+    <tr><td>Job sources</td><td>Say yes to the pre-configured company list; it tailors the keywords to your target roles.</td><td><code>portals.yml</code></td></tr>
+    <tr><td>About you</td><td>Your strengths, deal-breakers, best achievement. The more honest detail, the better it filters.</td><td><code>modes/_profile.md</code></td></tr>
+  </table>
+  <div class="warn"><b>Important: personalise your profile.</b>If Claude says <i>"modes/_profile.md is still the shipped template"</i>, say yes when it offers to personalise it from your CV. Otherwise every job is scored against the template author's targeting instead of yours.</div>
+  <p><b>Check it worked:</b> ask <i>"Run the setup doctor."</i> It should report that nothing is missing.</p>
+</section>
+
+<!-- 5 -->
+<section class="section">
+  <div class="kicker">Step 5</div>
+  <h2>Tell it what you're looking for</h2>
+  <p class="lede">Two filters decide which jobs ever reach you: <b>job titles</b> and <b>location</b>.</p>
+
+  <h3>Job titles</h3>
+  <p>Titles are filtered by keyword in <code>portals.yml</code> → <code>title_filter</code>: <b>positive</b> titles to keep, <b>negative</b> words to drop (e.g. "Intern", "Director"). Just tell Claude in plain words:</p>
+  <div class="say">"I'm looking for senior individual-contributor product design roles. Exclude manager, lead, graphic and marketing design."</div>
+  <div class="note"><b>Searching for product design roles too?</b>The project includes a ready-made filter: <code>tests/fixtures/title-filter.product-design.yml</code>. Ask Claude: <i>"Use the product-design title filter from tests/fixtures in my portals.yml."</i></div>
+
+  <h3>Location</h3>
+  <p>The location rules assume you live in <b>India</b>: India-based and India-eligible remote roles are kept, and roles abroad are kept only as "relocation" options. If you live elsewhere, ask:</p>
+  <div class="say">"I'm based in [country]. Change the location rules and job-source location lists to match."</div>
+  <p>The relevant files are listed under "Defaults to change" in <code>docs/EXTRAS.md</code>.</p>
+
+  <h3>Seniority</h3>
+  <p>A seniority gate rejects Staff, Principal, Lead, Manager and Director titles, and visual, graphic or marketing design roles. If you <i>want</i> lead roles, tell Claude to relax the seniority gate.</p>
+</section>
+
+<!-- 6 -->
+<section class="section">
+  <div class="kicker">Step 6</div>
+  <h2>Your answer bank</h2>
+  <p class="lede">Application forms ask the same questions over and over: notice period, expected salary, work authorisation, "how did you hear about us". The answer bank is the one file where <i>you</i> write those answers once. The form filler uses only this file and your CV.</p>
+  <pre><code>cp templates/application-answers.example.yml data/application-answers.yml</code></pre>
+  <p>Then open it with Claude: <i>"Help me fill in my answer bank, one section at a time."</i></p>
+
+  <table>
+    <tr><th style="width:27%">Section</th><th>What goes in it</th></tr>
+    <tr><td><code>identity</code></td><td>Name, phone, email, LinkedIn, portfolio link.</td></tr>
+    <tr><td><code>compensation</code></td><td>Current and expected salary, exactly as you want them stated.</td></tr>
+    <tr><td><code>availability</code></td><td>Notice period. Joining date is always asked, never guessed.</td></tr>
+    <tr><td><code>work_authorization</code></td><td>Where you may work and whether you need sponsorship.</td></tr>
+    <tr><td><code>location_preference</code></td><td>Your current city and country, and whether you're comfortable with hybrid/onsite (<code>onsite_comfort</code>).</td></tr>
+    <tr><td><code>demographics</code></td><td>Optional. Only answered if <b>you</b> fill it in. List anything you never want answered under <code>never_answer</code>.</td></tr>
+    <tr><td><code>verified_experience</code></td><td>Employers, metrics, tools, education, copied from your CV.</td></tr>
+    <tr><td><code>free_text</code></td><td>Your own short answers for "Why this company?", "Tell us about a project you're proud of" and so on: <code>highlights</code>, <code>angles</code> and <code>stories</code>, written in your own words.</td></tr>
+  </table>
+
+  <div class="good"><b>Blank is fine, and safe.</b>Any field you leave empty makes the form filler stop and ask you, rather than guess. Start with identity, compensation and availability, and fill in the rest over time.</div>
+  <div class="note"><b>Stories use placeholders.</b>In <code>free_text.stories</code> you can write <code>{company}</code>, <code>{role}</code> or <code>{termA}</code> (a key product term from the job post), and they're filled in per application. The generator never invents experience or numbers: every figure must already be in your CV.</div>
+</section>
+
+<!-- 7 -->
+<section class="section">
+  <div class="kicker">Step 7</div>
+  <h2>Your final CV</h2>
+  <p class="lede">You keep <b>one</b> polished PDF CV that you designed yourself. The tools upload exactly that file, every time, and refuse any other.</p>
+  <ol>
+    <li>Put your CV in the project, e.g. <code>documents/cv/final/Your Name - CV.pdf</code></li>
+    <li>Get its fingerprint (a hash, so a different or edited file is never uploaded by mistake):
+      <pre><code>shasum -a 256 "documents/cv/final/Your Name - CV.pdf"</code></pre></li>
+    <li>In your answer bank, set <code>cv.final_path</code> to the file path and <code>cv.final_sha256</code> to the long code it printed.</li>
+    <li>Check it: <pre><code>node final-cv.mjs</code></pre> It should say the CV is verified.</li>
+  </ol>
+  <div class="note"><b>Updated your CV?</b>Replace the PDF, run <code>shasum</code> again and update the hash. Until you do, the tools refuse to upload the changed file, on purpose. Also ask Claude to update <code>cv.md</code> so job scoring uses the new content.</div>
+  <p>Want Claude to never generate or tailor CVs for you? Add that to your house rules (step 13).</p>
+</section>
+
+<!-- 8 -->
+<section class="section">
+  <div class="kicker">Step 8 · optional</div>
+  <h2>Optional extra job sources</h2>
+  <p class="lede">Out of the box, discovery uses free sources: company career pages (Greenhouse, Lever, Ashby, Workday) and a public-search sweep. Two paid services add more. Both are off until you add a key, and both have small spend caps built in.</p>
+  <table>
+    <tr><th style="width:22%">Service</th><th>Adds</th><th style="width:30%">Key in <code>.env</code></th></tr>
+    <tr><td>Apify</td><td>LinkedIn job listings (used only to <i>find</i> roles, then matched to the employer's own page).</td><td><code>APIFY_TOKEN=…</code></td></tr>
+    <tr><td>Firecrawl</td><td>Web search and reading of JavaScript-heavy career pages.</td><td><code>FIRECRAWL_API_KEY=…</code></td></tr>
+  </table>
+  <pre><code>cp .env.example .env</code></pre>
+  <p>Then paste your key after the <code>=</code> on the right line. The <code>.env</code> file is private and never uploaded anywhere.</p>
+  <div class="warn"><b>Keep keys secret.</b>Never paste an API key into a chat, an email or a shared document. If one leaks, delete it in that service's dashboard and create a new one.</div>
+</section>
+
+<!-- 9 -->
+<section class="section">
+  <div class="kicker">Step 9</div>
+  <h2>Schedule the daily scan</h2>
+  <p class="lede">First, run one scan by hand to make sure everything works (it can take several minutes):</p>
+  <pre><code>bash daily-scan.sh</code></pre>
+  <p>You should get a Mac notification like "career-ops: 7 new role(s)", and <code>output/daily-digest.html</code> will exist.</p>
+
+  <h3>Make it run twice a day automatically</h3>
+  <p>The easy way is to ask Claude:</p>
+  <div class="say">"Schedule daily-scan.sh to run at 11:30 and 20:00 every day using launchd, using the plist in docs/EXTRAS.md."</div>
+  <p>Or do it yourself: save the plist from <code>docs/EXTRAS.md</code> (step 5 there) as <code>~/Library/LaunchAgents/com.careerops.daily-scan.plist</code>, replace <code>/ABSOLUTE/PATH/TO/career-ops</code> with your real path (find it by running <code>pwd</code> inside the folder), then:</p>
+  <pre><code>launchctl load ~/Library/LaunchAgents/com.careerops.daily-scan.plist</code></pre>
+  <div class="note"><b>Your Mac must be awake.</b>A scheduled scan runs only if your Mac is on. If it was asleep, the scan runs at the next scheduled time. To stop the schedule, run the same command with <code>unload</code> instead of <code>load</code>.</div>
+</section>
+
+<!-- 10 -->
+<section class="section">
+  <div class="kicker">Step 10</div>
+  <h2>The dashboard</h2>
+  <p class="lede">The digest is a page you open in your browser. To make its buttons work, start the small local server:</p>
+  <pre><code>node mark-applied.mjs</code></pre>
+  <p>Then open <b>http://127.0.0.1:8900</b>. It runs only on your own Mac, so nobody else can reach it. Leave that Terminal window open while you use the dashboard.</p>
+  <table>
+    <tr><th style="width:24%">Tab</th><th>What it shows</th></tr>
+    <tr><td>New Jobs Found</td><td>Fresh roles from the latest scan, ranked by fit to your CV, with the reason for each score.</td></tr>
+    <tr><td>Applied Jobs</td><td>Everything in your tracker with its status and date.</td></tr>
+    <tr><td>All Jobs History</td><td>Every role ever discovered, deduplicated.</td></tr>
+    <tr><td>Archived</td><td>Roles you hid. Unarchive anytime.</td></tr>
+  </table>
+  <h3>Two buttons on each role</h3>
+  <ul>
+    <li><b>Mark Applied</b>: you applied yourself (e.g. on the company site). It adds the role to your tracker, once only.</li>
+    <li><b>Archive</b>: not interested. It hides the role from New Jobs.</li>
+  </ul>
+  <div class="note"><b>"Source" vs "Apply" links.</b>"Source" is where a role was found (often LinkedIn). "Apply" is the employer's own page. LinkedIn listings are treated as leads only. Always apply on the employer's site when there is one.</div>
+</section>
+
+<!-- 11 -->
+<section class="section">
+  <div class="kicker">Step 11 · optional</div>
+  <h2>Gmail sync</h2>
+  <p class="lede">If you already sort job emails into Gmail labels, Claude can turn them into tracker updates: rejected, interview, offer.</p>
+
+  <div class="step"><div class="num">a</div><div>
+    <h3>Create four labels in Gmail</h3>
+    <p><code>Jobs/Applied</code>, <code>Jobs/Interview</code>, <code>Jobs/Rejected</code>, <code>Jobs/Offered</code>. Then add Gmail filters (e.g. emails containing "unfortunately" or "not moving forward" → Jobs/Rejected), or label emails by hand as they arrive.</p>
+  </div></div>
+
+  <div class="step"><div class="num">b</div><div>
+    <h3>Connect Gmail to Claude</h3>
+    <p>Turn on Claude's Gmail connector for your account. Claude only <i>reads</i> the labelled emails. It never sends, deletes or relabels anything.</p>
+  </div></div>
+
+  <div class="step"><div class="num">c</div><div>
+    <h3>Map your labels once</h3>
+    <div class="say">"List my Gmail labels and save the four Jobs/* label ids to data/gmail-labels.json."</div>
+  </div></div>
+
+  <div class="step"><div class="num">d</div><div>
+    <h3>Sync whenever you like</h3>
+    <div class="say">"Sync gmail."</div>
+    <p>Claude reads the new labelled emails, matches them to your tracker, and shows each proposed change with the email that supports it. Only the ones you approve are applied.</p>
+  </div></div>
+
+  <div class="warn"><b>Labels are hints, not verdicts.</b>Newsletters and job alerts often end up in Jobs/Interview by accident, so an interview is only ever proposed from the email's actual text.</div>
+</section>
+
+<!-- 12 -->
+<section class="section">
+  <div class="kicker">Step 12</div>
+  <h2>Applying to a job</h2>
+  <p class="lede">You can always just apply yourself and click <b>Mark Applied</b>. For long forms, the assistant can fill them in for you to review. Simplest is to ask Claude:</p>
+  <div class="say">"Fill the application for this job, but don't submit: &lt;job link&gt;"</div>
+  <p>Behind the scenes it runs these steps (you can also run them yourself):</p>
+  <pre><code># 1. open a visible browser window on the job
+node browser-session.mjs start "&lt;job link&gt;"
+
+# 2. check your answer bank and final CV
+node application-runner.mjs --check-bank
+
+# 3. show what it would fill (changes nothing)
+node application-runner.mjs --plan --url "&lt;job link&gt;" --company "Acme"
+
+# 4. fill the form, never submit
+node application-runner.mjs --fill --url "&lt;job link&gt;" --company "Acme"</code></pre>
+  <h3>Then you</h3>
+  <ol>
+    <li>Read what it filled, and the list of questions it handed back to you.</li>
+    <li>Answer those yourself in the browser window.</li>
+    <li>Click Submit yourself.</li>
+    <li>Tell Claude <i>"I submitted it"</i> (or use Mark Applied) so the tracker records it.</li>
+  </ol>
+  <div class="good"><b>Built-in brakes.</b>It stops at CAPTCHAs, logins and one-time codes, and legal declarations. It never overwrites something you already typed into a form, never fills in sensitive questions you haven't answered in your bank, and never uploads any CV except your verified final one.</div>
+  <p><b>Several roles at once?</b> List them in <code>data/manual-targets.json</code> as <code>[{"company": "...", "role": "...", "url": "..."}]</code> and run <code>node open-for-manual.mjs</code>. Each one opens pre-filled in its own tab.</p>
+</section>
+
+<!-- 13 -->
+<section class="section">
+  <div class="kicker">Step 13</div>
+  <h2>Your house rules</h2>
+  <p class="lede">The file <code>modes/_custom.md</code> holds rules Claude follows in every session. Ask Claude to add these (and any of your own):</p>
+  <pre><code>- Never submit an application without my explicit approval for that specific job.
+- Never mark anything Applied because a form was opened or filled; only a
+  site-confirmed submission or my own statement counts.
+- Upload only my final CV (node final-cv.mjs); never generate or tailor one.
+- Never invent answers. Anything not in data/application-answers.yml or cv.md
+  is a question for me.
+- Stop at CAPTCHAs, logins/OTPs and legal attestations.</code></pre>
+  <p>Rules can also be personal preferences, e.g. <i>"Never suggest roles at companies under 20 people"</i> or <i>"Always show salary first in evaluations."</i> Changed your mind? Just tell Claude, and it updates the file.</p>
+
+  <h3>Don't want to apply somewhere?</h3>
+  <p>Add the company to <code>data/blacklist.md</code> (ask Claude). The scanner skips it from then on.</p>
+</section>
+
+<!-- 14 -->
+<section class="section">
+  <div class="kicker">Step 14</div>
+  <h2>A normal day</h2>
+  <table>
+    <tr><th style="width:22%">When</th><th>What happens</th><th style="width:26%">You do</th></tr>
+    <tr><td>11:30 &amp; 20:00</td><td>The scan runs and a notification says how many new roles passed your filters.</td><td>Nothing.</td></tr>
+    <tr><td>Once a day</td><td>Open the dashboard. Archive what doesn't interest you.</td><td>~5 minutes.</td></tr>
+    <tr><td>Good matches</td><td>Ask Claude to evaluate one in depth: <i>"Evaluate this job: &lt;link&gt;"</i>. You get a scored report with risks and talking points.</td><td>Decide: apply or skip.</td></tr>
+    <tr><td>Applying</td><td>Apply yourself, or let it fill the form and stop for you.</td><td>Review and submit.</td></tr>
+    <tr><td>Every few days</td><td><i>"Sync gmail"</i> brings rejections and interviews into the tracker.</td><td>Approve the updates.</td></tr>
+  </table>
+  <h3>Useful things to ask Claude</h3>
+  <ul>
+    <li><i>"Show my application stats"</i>: how many applied, response rate, interviews.</li>
+    <li><i>"Which applications need a follow-up?"</i></li>
+    <li><i>"Prepare me for my interview at &lt;company&gt;"</i></li>
+    <li><i>"Draft a LinkedIn message to the hiring manager for &lt;role&gt;"</i></li>
+    <li><i>"Why am I getting rejected? Look for patterns."</i></li>
+    <li><i>"What skills keep coming up in roles I'm missing?"</i></li>
+  </ul>
+  <div class="note"><b>Quality over quantity.</b>The system is designed to help you send fewer, better applications. It will tell you plainly when a role scores below 4.0/5 and recommend against applying.</div>
+</section>
+
+<!-- 15 + 16 -->
+<section class="section">
+  <div class="kicker">Step 15</div>
+  <h2>Staying up to date</h2>
+  <p>To get improvements to this setup, run this in the <code>career-ops</code> folder (or ask Claude to <i>"pull the latest version"</i>):</p>
+  <pre><code>git pull</code></pre>
+  <p>Your CV, profile, answer bank, tracker and anything in <code>data/</code> and <code>output/</code> are never touched by an update. They're private to your machine.</p>
+
+  <div class="kicker" style="margin-top:20pt">Step 16</div>
+  <h2>Privacy: what stays where</h2>
+  <table>
+    <tr><th style="width:40%">Stays only on your Mac</th><th>Shared in the project (no personal data)</th></tr>
+    <tr><td><code>cv.md</code>, your CV PDF, <code>config/profile.yml</code>, <code>portals.yml</code>, <code>modes/_profile.md</code>, <code>modes/_custom.md</code>, everything in <code>data/</code> (tracker, answer bank, Gmail label map, browser profile), <code>output/</code>, <code>.env</code> keys</td>
+        <td>The scripts, templates, tests and docs. None of them contain anyone's personal details. They read yours from the private files on the left.</td></tr>
+  </table>
+  <ul>
+    <li>Job pages and forms are opened in a separate browser profile, never your everyday Chrome.</li>
+    <li>Your data goes only to the job sites you apply on, and to Claude while you chat with it.</li>
+    <li>If you share your own copy of the project later, ask Claude to scan it for personal data before you publish anything.</li>
+  </ul>
+</section>
+
+<!-- 17 -->
+<section class="section">
+  <div class="kicker">Step 17</div>
+  <h2>Troubleshooting</h2>
+  <table>
+    <tr><th style="width:36%">Problem</th><th>Fix</th></tr>
+    <tr><td><code>command not found: node</code> or <code>brew</code></td><td>Close and reopen Terminal. If it persists, rerun the "Next steps" lines Homebrew printed at the end of its install.</td></tr>
+    <tr><td><code>npm install</code> fails</td><td>Check <code>node -v</code> is 18.17 or newer: <code>brew upgrade node</code>.</td></tr>
+    <tr><td>Browser won't open / "executable doesn't exist"</td><td><code>npx playwright install chromium</code></td></tr>
+    <tr><td>No notifications</td><td>System Settings → Notifications → allow notifications for Script Editor / Terminal.</td></tr>
+    <tr><td>Scan finds 0 roles every time</td><td>Your title or location filters are too strict. Ask Claude: <i>"Why did the last scan find nothing? Show me what the filters rejected."</i></td></tr>
+    <tr><td>Scores seem wrong</td><td>Make sure <code>modes/_profile.md</code> is personalised (step 4). Tell Claude <i>"this score is too high because…"</i>; it learns from that.</td></tr>
+    <tr><td>Dashboard buttons do nothing</td><td>The server isn't running. Start <code>node mark-applied.mjs</code> and use http://127.0.0.1:8900, not the file directly.</td></tr>
+    <tr><td>"Address already in use" on 8900</td><td>The dashboard is already running. Open the link. Or use <code>node mark-applied.mjs --port 8901</code>.</td></tr>
+    <tr><td><code>final-cv.mjs</code> says the CV is altered</td><td>The PDF changed since you recorded its hash. Rerun <code>shasum -a 256</code> and update <code>cv.final_sha256</code>.</td></tr>
+    <tr><td>The form filler asks too many questions</td><td>Fill more of your answer bank (step 6). Each answer you add is reused on every future form.</td></tr>
+    <tr><td>Using Linux instead of macOS</td><td>Schedule <code>bash daily-scan.sh</code> with cron. Notifications fall back to the log in <code>data/scan-cron.log</code>.</td></tr>
+    <tr><td>Anything else</td><td>Ask Claude in the project folder: <i>"Run the setup doctor and pipeline health check, and tell me what's wrong."</i></td></tr>
+  </table>
+  <div class="good" style="margin-top:14pt"><b>You're set.</b>From here on, most things are one sentence to Claude away. When in doubt, describe what you want in plain words and it will find the right tool, and ask before doing anything it can't undo.</div>
+</section>
+
+</body>
+</html>

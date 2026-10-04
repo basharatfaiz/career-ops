@@ -1,0 +1,28 @@
+# This fork's own files (see docs/EXTRAS.md). Declared here so
+# `node update-system.mjs` never overwrites or removes them when it pulls
+# upstream career-ops releases, and so the SYSTEM_PATHS coverage check counts
+# them as owned. One repo-relative path per line; trailing / = directory.
+answer-generator.mjs
+apify-headtohead.mjs
+application-runner.mjs
+apply-one.mjs
+browser-session.mjs
+captcha-inspect.mjs
+daily-digest.mjs
+daily-scan.sh
+discover-multi.mjs
+discovery/
+final-cv.mjs
+geo-eligibility.mjs
+gmail-sync.mjs
+inspect-form.mjs
+load-env.mjs
+mark-applied.mjs
+open-for-manual.mjs
+providers-status.mjs
+resolve-job-url.mjs
+scraper-discovery.mjs
+scraper-sources.mjs
+screenshot-gate.mjs
+seniority-gate.mjs
+untick-sensitive.mjs

@@ -1,3 +1,58 @@
+# career-ops + daily job-search extras
+
+This is a fork of [career-ops](https://github.com/career-ops-hq/career-ops),
+the open-source AI job-search agent, with a hands-off daily workflow added on
+top. The original project works exactly as before; the extras are additions.
+
+**📘 New here? Read the [step-by-step setup guide (PDF)](docs/career-ops-setup-guide.pdf).**
+It goes from a fresh Mac to a daily routine, with no terminal experience assumed.
+Technical reference: [docs/EXTRAS.md](docs/EXTRAS.md).
+
+## What this fork adds
+
+| | |
+|---|---|
+| **Twice-daily job discovery** | Scans company career pages, job boards and (optionally) LinkedIn, filters out roles that don't fit your title, seniority and location, and sends a Mac notification. |
+| **Dashboard** | A local page with New Jobs (ranked by fit to your CV), Applied, All Jobs History and Archived, plus **Mark Applied** and **Archive** buttons that update your tracker. |
+| **Gmail sync** | Turns your Gmail `Jobs/*` labels into proposed tracker updates (rejected, interview, offer). You approve each one. |
+| **Assisted applying** | Fills application forms from your own saved answers and uploads your one final CV, then **stops before Submit** so you review and send it yourself. |
+
+## Quick start
+
+```bash
+git clone https://github.com/basharatfaiz/career-ops.git
+cd career-ops
+npm install
+npx playwright install chromium
+cp docs/local-paths.fork.txt config/local-paths.txt
+cp templates/application-answers.example.yml data/application-answers.yml
+```
+
+Then open the folder in [Claude Code](https://claude.com/claude-code) and say
+**"set me up"**. It walks you through your CV, profile and target roles. The
+[setup guide](docs/career-ops-setup-guide.pdf) covers the rest: the answer bank,
+your final CV, the daily schedule, the dashboard and Gmail sync.
+
+> `config/local-paths.txt` tells career-ops's own updater that this fork's
+> files are yours, so pulling an upstream update never overwrites them.
+
+## Safety and privacy
+
+- **Nothing is submitted for you.** Every tool stops before Submit, and nothing is
+  marked Applied unless you say so.
+- **Nothing is made up.** Answers come only from your CV and the answer bank you
+  write. Anything else is handed back to you as a question.
+- **Your data stays on your Mac.** CV, profile, tracker, answers and keys live in
+  git-ignored files. No script in this fork contains anyone's personal details.
+
+## Credit
+
+Built on [career-ops](https://github.com/career-ops-hq/career-ops) by
+[santifer](https://github.com/santifer) and contributors (MIT). The original
+README follows unchanged.
+
+---
+
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg"><img src="docs/wordmark-light.svg" alt="career-ops" width="250" height="56"></picture></p>
 
 <p align="center">The open-source AI job search agent.</p>

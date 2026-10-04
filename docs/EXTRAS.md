@@ -8,6 +8,11 @@ defaults lean that way (see [Defaults to change](#defaults-to-change)).
 **Nothing here submits an application for you.** Every tool stops before
 Submit, and nothing is marked Applied until you say so.
 
+**New to this?** Start with the step-by-step
+[setup guide (PDF)](career-ops-setup-guide.pdf). It goes from a fresh Mac to a
+daily routine, with no prior terminal experience assumed. Its source is
+[setup-guide.html](setup-guide.html).
+
 ## What it adds
 
 | Piece | Files | What it does |
@@ -26,7 +31,11 @@ Submit, and nothing is marked Applied until you say so.
    ```bash
    npm install
    npx playwright install chromium
+   cp docs/local-paths.fork.txt config/local-paths.txt
    ```
+
+   The last line tells career-ops's own updater (`update-system.mjs`) that this
+   fork's files are yours, so an upstream update never overwrites them.
 
 2. **Answer bank.** Copy the template and fill it in from your own CV:
 
